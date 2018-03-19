@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ns1:GetBalanceResponse xmlns:ns1="urn:ebay:api:PayPalAPI">
+  <ns0:Timestamp xmlns:ns0="urn:ebay:apis:eBLBaseComponents">2003-10-01T23:57:59Z</ns0:Timestamp>
+  <ns0:Ack xmlns:ns0="urn:ebay:apis:eBLBaseComponents">1</ns0:Ack>
+  <ns0:CorrelationID xmlns:ns0="urn:ebay:apis:eBLBaseComponents">1</ns0:CorrelationID>
+  <ns0:Errors xmlns:ns0="urn:ebay:apis:eBLBaseComponents"/>
+  <ns0:Version xmlns:ns0="urn:ebay:apis:eBLBaseComponents">1</ns0:Version>
+  <ns0:Build xmlns:ns0="urn:ebay:apis:eBLBaseComponents">1</ns0:Build>
+  <ns1:Balance currencyID="USD">0</ns1:Balance>
+  <ns1:BalanceTimeStamp>2018-03-19T01:53:27Z</ns1:BalanceTimeStamp>
+  <ns1:BalanceHoldings>0</ns1:BalanceHoldings>
+</ns1:GetBalanceResponse>

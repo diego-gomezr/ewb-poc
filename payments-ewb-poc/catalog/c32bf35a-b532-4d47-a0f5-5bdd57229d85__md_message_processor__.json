@@ -1,0 +1,11 @@
+{
+    "inputMessageMetadata": {},
+    "outputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "paypal_payout_out"
+        }
+    },
+    "id": "c32bf35a-b532-4d47-a0f5-5bdd57229d85",
+    "version": "5.2.0.0"
+}

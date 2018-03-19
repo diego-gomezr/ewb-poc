@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ns0:MassPayReq xmlns:ns0="urn:ebay:api:PayPalAPI">
+  <ns0:MassPayRequest>
+    <ns1:Version xmlns:ns1="urn:ebay:apis:eBLBaseComponents">1</ns1:Version>
+    <ns0:EmailSubject>Payment for Mule - Eeast West Bank POC.</ns0:EmailSubject>
+    <ns0:ReceiverType>EmailAddress</ns0:ReceiverType>
+    <ns0:MassPayItem>
+      <ns0:ReceiverEmail>diego.gomez-facilitator@mulesoft.com</ns0:ReceiverEmail>
+      <ns0:Amount currencyID="USD">1.00</ns0:Amount>
+    </ns0:MassPayItem>
+  </ns0:MassPayRequest>
+</ns0:MassPayReq>

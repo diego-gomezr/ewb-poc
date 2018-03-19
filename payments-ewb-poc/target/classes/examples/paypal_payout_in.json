@@ -1,0 +1,6 @@
+{
+  "amount": 123.45,
+  "currency-code": "USD",
+  "receiver-email-id": "diego.gomez@mulesoft.com",
+  "email-subject": "Payment for Mule - Eeast West Bank POC."
+}

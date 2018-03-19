@@ -1,0 +1,17 @@
+{
+    "inputMessageMetadata": {},
+    "outputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "balance_json"
+        },
+        "flowVariables": {
+            "balance": {
+                "connectorName": "#_custom_mule_metadata_type_#",
+                "typeId": "balance_json"
+            }
+        }
+    },
+    "id": "fb7116c3-96ed-4212-84a5-2850f02a1bf0",
+    "version": "5.2.0.0"
+}

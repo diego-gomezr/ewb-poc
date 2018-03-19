@@ -1,0 +1,18 @@
+{
+    "inputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "paypal_payout"
+        }
+    },
+    "outputMessageMetadata": {
+        "flowVariables": {
+            "Payout": {
+                "connectorName": "PayPal_Connector__Sender",
+                "typeId": "PayPalAPI||MassPay"
+            }
+        }
+    },
+    "id": "24ea51ed-db56-420a-9ea1-5a22c0c44433",
+    "version": "5.2.0.0"
+}
