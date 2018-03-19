@@ -1,0 +1,16 @@
+{
+  "amount": 100,
+  "currency": "usd",
+  "card": 4242424242424242,
+  "exp_month": 1,
+  "exp_year": 2050,
+  "cvc": 123,
+  "name": "Diego Gomez",
+  "address": "323 Montgomery",
+  "city": "San Francisco",
+  "state": "CA",
+  "zip": 94500,
+  "country": "USA",
+  "capture": true,
+  "statement_description": "Payment for service"
+}

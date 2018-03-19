@@ -1,0 +1,16 @@
+{
+    "inputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "stripe_balance"
+        }
+    },
+    "outputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "balance_json"
+        }
+    },
+    "id": "e9a7d103-5a40-4654-867b-d257de69e6b0",
+    "version": "5.2.0.0"
+}

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:stripe="http://www.mulesoft.org/schema/mule/stripe" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:paypal="http://www.mulesoft.org/schema/mule/paypal" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/paypal http://www.mulesoft.org/schema/mule/paypal/current/mule-paypal.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/stripe http://www.mulesoft.org/schema/mule/stripe/current/mule-stripe.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+    <flow name="GetBalancePaypal">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/paypal/balance" doc:name="HTTP" allowedMethods="GET"/>
+        <set-variable variableName="currency" value="#[message.inboundProperties.'http.query.params'.allcurrency == null ? true : message.inboundProperties.'http.query.params'.allcurrency]" doc:name="Set Currency Flag"/>
+        <set-variable variableName="version" value="#[message.inboundProperties.'http.query.params'.version == null ? 1 :  message.inboundProperties.'http.query.params'.version]" doc:name="Set Version"/>
+        <dw:transform-message doc:name="Create Request">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+%namespace ns0 urn:ebay:api:PayPalAPI
+%namespace ns1 urn:ebay:apis:eBLBaseComponents
+---
+{
+	ns0#GetBalanceReq: {
+		ns0#GetBalanceRequest: {
+			ns1#Version: flowVars.version as :string,
+			ns0#ReturnAllCurrencies: flowVars.currency as :string
+		}
+	}
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <choice doc:name="Choice">
+            <when expression="#[message.inboundProperties.'http.query.params'.email == &quot;diego@mulesoft.com&quot;]">
+                <paypal:invoke config-ref="PayPal_Connector_Receiver" type="PayPalAPI||GetBalance" doc:name="Get Receiver Balance"/>
+            </when>
+            <otherwise>
+                <paypal:invoke config-ref="PayPal_Connector__Sender" type="PayPalAPI||GetBalance" doc:name="Get Sender Balance"/>
+            </otherwise>
+        </choice>
+        <dw:transform-message doc:name="Transform Message" metadata:id="db9c6f22-d93e-4dee-90e4-49d2bed6c239">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+%namespace ns1 urn:ebay:api:PayPalAPI
+---
+{
+	balance: payload.ns1#GetBalanceResponse.ns1#Balance as :number,
+	currency-id: payload.ns1#GetBalanceResponse.ns1#Balance.@currencyID,
+	timestamp: payload.ns1#GetBalanceResponse.ns1#BalanceTimeStamp as :string
+}]]></dw:set-payload>
+        </dw:transform-message>
+    </flow>
+    <flow name="implementationFlow">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/paypal/payout" allowedMethods="POST" doc:name="HTTP"/>
+        <set-variable variableName="email" value="diego.gomez-facilitator@mulesoft.com" doc:name="Set receiver email"/>
+        <dw:transform-message doc:name="SOAP Request Balance" metadata:id="24ea51ed-db56-420a-9ea1-5a22c0c44433">
+            <dw:input-payload doc:sample="examples/paypal_payout.json" mimeType="application/json"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+%namespace ns0 urn:ebay:api:PayPalAPI
+%namespace ns1 urn:ebay:apis:eBLBaseComponents
+---
+{
+	ns0#GetBalanceReq: {
+		ns0#GetBalanceRequest: {
+			ns1#Version: 1,
+			ns0#ReturnAllCurrencies: true
+		}
+	}
+}
+]]></dw:set-payload>
+            <dw:set-variable variableName="Payout"><![CDATA[%dw 1.0
+%output application/xml
+%namespace ns0 urn:ebay:api:PayPalAPI
+%namespace ns1 urn:ebay:apis:eBLBaseComponents
+---
+{
+	ns0#MassPayReq: {
+		ns0#MassPayRequest: {
+			ns1#Version: 1,
+			ns0#EmailSubject: payload.email-subject,
+			ns0#ReceiverType: "EmailAddress",
+			ns0#MassPayItem: {
+				ns0#ReceiverEmail: flowVars.email,
+				ns0#Amount @(currencyID: payload.currency-code): payload.amount
+			}
+		}
+	}
+}]]></dw:set-variable>
+        </dw:transform-message>
+        <paypal:invoke config-ref="PayPal_Connector__Sender" type="PayPalAPI||GetBalance" doc:name="Get Previous Balance"/>
+        <dw:transform-message doc:name="JSON Response Balance" metadata:id="fb7116c3-96ed-4212-84a5-2850f02a1bf0">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+%namespace ns1 urn:ebay:api:PayPalAPI
+---
+{
+	balance: payload.ns1#GetBalanceResponse.ns1#Balance as :number
+}]]></dw:set-payload>
+            <dw:set-variable variableName="balance"><![CDATA[%dw 1.0
+%output application/json
+%namespace ns1 urn:ebay:api:PayPalAPI
+---
+{
+	balance: payload.ns1#GetBalanceResponse.ns1#Balance as :number
+}]]></dw:set-variable>
+        </dw:transform-message>
+        <dw:transform-message doc:name="SOAP Request Payout">
+            <dw:input-variable doc:sample="sample_data/MassPayReq.xml" variableName="Payout"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+%namespace ns0 urn:ebay:api:PayPalAPI
+%namespace ns1 urn:ebay:apis:eBLBaseComponents
+---
+{
+	ns0#MassPayReq: {
+		ns0#MassPayRequest: {
+			ns1#ErrorLanguage: flowVars.Payout.ns0#MassPayReq.ns0#MassPayRequest.ns1#Version,
+			ns1#Version: 1,
+			ns0#EmailSubject: flowVars.Payout.ns0#MassPayReq.ns0#MassPayRequest.ns0#EmailSubject,
+			ns0#ReceiverType: flowVars.Payout.ns0#MassPayReq.ns0#MassPayRequest.ns0#ReceiverType,
+			(flowVars.Payout.ns0#MassPayReq.ns0#MassPayRequest.*ns0#MassPayItem map ((massPayItem , indexOfMassPayItem) -> {
+				ns0#MassPayItem: {
+					ns0#ReceiverEmail: massPayItem.ns0#ReceiverEmail,
+					ns0#Amount @(currencyID: massPayItem.ns0#Amount.@currencyID): massPayItem.ns0#Amount
+				}
+			}))
+		}
+	}
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <paypal:invoke config-ref="PayPal_Connector__Sender" type="PayPalAPI||MassPay" doc:name="Payout"/>
+        <dw:transform-message doc:name="SOAP Request Balance">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+%namespace ns0 urn:ebay:api:PayPalAPI
+%namespace ns1 urn:ebay:apis:eBLBaseComponents
+---
+{
+	ns0#GetBalanceReq: {
+		ns0#GetBalanceRequest: {
+			ns1#Version: 1,
+			ns0#ReturnAllCurrencies: true
+		}
+	}
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <paypal:invoke config-ref="PayPal_Connector__Sender" type="PayPalAPI||GetBalance" doc:name="Get New Balance"/>
+        <dw:transform-message doc:name="JSON Payout Response" metadata:id="c32bf35a-b532-4d47-a0f5-5bdd57229d85">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+%namespace ns1 urn:ebay:api:PayPalAPI
+---
+{
+	status: "Success",
+	previous-balance: flowVars.balance.balance,
+	current-balance: payload.ns1#GetBalanceResponse.ns1#Balance as :number,
+	currency: payload.ns1#GetBalanceResponse.ns1#Balance.@currencyID
+}]]></dw:set-payload>
+        </dw:transform-message>
+    </flow>
+
+    
+</mule>
