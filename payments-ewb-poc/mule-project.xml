@@ -3,4 +3,5 @@
     <name>payments-paypal-stripe</name>
     <description></description>
     <muleExtension name="PayPal Connector" qualifier="org.mule.tooling.ui.contribution.paypal.3.7.0"/>
+    <muleExtension name="Stripe" qualifier="org.mule.tooling.ui.contribution.stripe.3.6.0"/>
 </mule-project>

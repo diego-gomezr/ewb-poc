@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:paypal="http://www.mulesoft.org/schema/mule/paypal" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+<mule xmlns:stripe="http://www.mulesoft.org/schema/mule/stripe" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:paypal="http://www.mulesoft.org/schema/mule/paypal" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/paypal http://www.mulesoft.org/schema/mule/paypal/current/mule-paypal.xsd">
+http://www.mulesoft.org/schema/mule/paypal http://www.mulesoft.org/schema/mule/paypal/current/mule-paypal.xsd
+http://www.mulesoft.org/schema/mule/stripe http://www.mulesoft.org/schema/mule/stripe/current/mule-stripe.xsd">
     <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
     <paypal:config name="PayPal_Connector_Receiver" username="diego.gomez-facilitator_api1.mulesoft.com" password="WVEW2V9U5VXY2SH6" serviceAddress="https://api-3t.sandbox.paypal.com/2.0/" signature="AxpYDfrZEOWfawzZkLN7tKCy.BvJApgpJR2PrskQbbJbwfCNLz6maOKN" appId="EWBMulePOC" doc:name="PayPal Connector: configuration (Signature)"/>
     <paypal:config name="PayPal_Connector__Sender" username="diego.gomez-facilitator-1_api1.mulesoft.com" password="64SZC99GRJFH9P7T" serviceAddress="https://api-3t.sandbox.paypal.com/2.0/" signature="AJdvZnAElO.KLz0lzCVaXF7q8Yb9APRSUj4xDTLhNENNQnZvgtrt7eMF" appId="EWBMulePOC" doc:name="PayPal Connector: configuration (Signature)"/>
+    <stripe:config-type name="Stripe__Connection_Management_type_strategy" apiKey="sk_test_lSHLrggpaiBdrUWrcQ9UWNif" doc:name="Stripe: Connection Management type strategy"/>
 </mule>

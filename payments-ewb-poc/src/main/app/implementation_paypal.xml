@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:paypal="http://www.mulesoft.org/schema/mule/paypal" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:stripe="http://www.mulesoft.org/schema/mule/stripe" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:paypal="http://www.mulesoft.org/schema/mule/paypal" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/paypal http://www.mulesoft.org/schema/mule/paypal/current/mule-paypal.xsd
-http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
-    <flow name="payments-ewb-pocFlow">
-        <http:listener config-ref="HTTP_Listener_Configuration" path="/paypal" doc:name="HTTP" allowedMethods="GET"/>
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/stripe http://www.mulesoft.org/schema/mule/stripe/current/mule-stripe.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+    <flow name="GetBalancePaypal">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/paypal/balance" doc:name="HTTP" allowedMethods="GET"/>
         <set-variable variableName="currency" value="#[message.inboundProperties.'http.query.params'.allcurrency == null ? true : message.inboundProperties.'http.query.params'.allcurrency]" doc:name="Set Currency Flag"/>
         <set-variable variableName="version" value="#[message.inboundProperties.'http.query.params'.version == null ? 1 :  message.inboundProperties.'http.query.params'.version]" doc:name="Set Version"/>
         <dw:transform-message doc:name="Create Request">
@@ -27,7 +29,14 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 	}
 }]]></dw:set-payload>
         </dw:transform-message>
-        <paypal:invoke config-ref="PayPal_Connector_Receiver" type="PayPalAPI||GetBalance" doc:name="PayPal Connector"/>
+        <choice doc:name="Choice">
+            <when expression="#[message.inboundProperties.'http.query.params'.email == &quot;diego@mulesoft.com&quot;]">
+                <paypal:invoke config-ref="PayPal_Connector_Receiver" type="PayPalAPI||GetBalance" doc:name="Get Receiver Balance"/>
+            </when>
+            <otherwise>
+                <paypal:invoke config-ref="PayPal_Connector__Sender" type="PayPalAPI||GetBalance" doc:name="Get Sender Balance"/>
+            </otherwise>
+        </choice>
         <dw:transform-message doc:name="Transform Message" metadata:id="db9c6f22-d93e-4dee-90e4-49d2bed6c239">
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
@@ -41,7 +50,8 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
         </dw:transform-message>
     </flow>
     <flow name="implementationFlow">
-        <http:listener config-ref="HTTP_Listener_Configuration" path="/paypal" allowedMethods="POST" doc:name="HTTP"/>
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/paypal/payout" allowedMethods="POST" doc:name="HTTP"/>
+        <set-variable variableName="email" value="diego.gomez-facilitator@mulesoft.com" doc:name="Set receiver email"/>
         <dw:transform-message doc:name="SOAP Request Balance" metadata:id="24ea51ed-db56-420a-9ea1-5a22c0c44433">
             <dw:input-payload doc:sample="examples/paypal_payout.json" mimeType="application/json"/>
             <dw:set-payload><![CDATA[%dw 1.0
@@ -70,7 +80,7 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 			ns0#EmailSubject: payload.email-subject,
 			ns0#ReceiverType: "EmailAddress",
 			ns0#MassPayItem: {
-				ns0#ReceiverEmail: payload.receiver-email-id,
+				ns0#ReceiverEmail: flowVars.email,
 				ns0#Amount @(currencyID: payload.currency-code): payload.amount
 			}
 		}
@@ -148,4 +158,6 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 }]]></dw:set-payload>
         </dw:transform-message>
     </flow>
+
+    
 </mule>

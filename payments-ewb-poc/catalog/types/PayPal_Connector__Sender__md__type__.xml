@@ -5078,7 +5078,11 @@
                     <metaDataModelPropertiesManager>
                       <properties>
                         <org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty>
-                          <typeQName reference="../../../../../../../../../../../../entry[48]/org.mule.common.metadata.DefaultXmlMetaDataModel/fields/org.mule.common.metadata.DefaultMetaDataField/model/fields/org.mule.common.metadata.DefaultMetaDataField[2]/model/metaDataModelPropertiesManager/properties/org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty/typeQName"/>
+                          <typeQName>
+                            <namespaceURI>http://www.w3.org/2001/XMLSchema</namespaceURI>
+                            <localPart>string</localPart>
+                            <prefix></prefix>
+                          </typeQName>
                         </org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty>
                       </properties>
                     </metaDataModelPropertiesManager>
@@ -5103,7 +5107,7 @@
                     <metaDataModelPropertiesManager>
                       <properties>
                         <org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty>
-                          <typeQName reference="../../../../../../../../../../../../entry[48]/org.mule.common.metadata.DefaultXmlMetaDataModel/fields/org.mule.common.metadata.DefaultMetaDataField/model/fields/org.mule.common.metadata.DefaultMetaDataField[2]/model/metaDataModelPropertiesManager/properties/org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty/typeQName"/>
+                          <typeQName reference="../../../../../../org.mule.common.metadata.DefaultMetaDataField[2]/model/metaDataModelPropertiesManager/properties/org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty/typeQName"/>
                         </org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty>
                       </properties>
                     </metaDataModelPropertiesManager>
@@ -5128,7 +5132,7 @@
                     <metaDataModelPropertiesManager>
                       <properties>
                         <org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty>
-                          <typeQName reference="../../../../../../../../../../../../entry[48]/org.mule.common.metadata.DefaultXmlMetaDataModel/fields/org.mule.common.metadata.DefaultMetaDataField/model/fields/org.mule.common.metadata.DefaultMetaDataField[2]/model/metaDataModelPropertiesManager/properties/org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty/typeQName"/>
+                          <typeQName reference="../../../../../../org.mule.common.metadata.DefaultMetaDataField[2]/model/metaDataModelPropertiesManager/properties/org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty/typeQName"/>
                         </org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty>
                       </properties>
                     </metaDataModelPropertiesManager>
@@ -5182,7 +5186,7 @@
                     <metaDataModelPropertiesManager>
                       <properties>
                         <org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty>
-                          <typeQName reference="../../../../../../../../../../../../entry[48]/org.mule.common.metadata.DefaultXmlMetaDataModel/fields/org.mule.common.metadata.DefaultMetaDataField/model/fields/org.mule.common.metadata.DefaultMetaDataField[2]/model/metaDataModelPropertiesManager/properties/org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty/typeQName"/>
+                          <typeQName reference="../../../../../../org.mule.common.metadata.DefaultMetaDataField[2]/model/metaDataModelPropertiesManager/properties/org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty/typeQName"/>
                         </org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty>
                       </properties>
                     </metaDataModelPropertiesManager>
@@ -5261,7 +5265,7 @@
                             <metaDataModelPropertiesManager>
                               <properties>
                                 <org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty>
-                                  <typeQName reference="../../../../../../../../../../../../../../../../entry[48]/org.mule.common.metadata.DefaultXmlMetaDataModel/fields/org.mule.common.metadata.DefaultMetaDataField/model/fields/org.mule.common.metadata.DefaultMetaDataField[2]/model/metaDataModelPropertiesManager/properties/org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty/typeQName"/>
+                                  <typeQName reference="../../../../../../../../../../org.mule.common.metadata.DefaultMetaDataField[2]/model/metaDataModelPropertiesManager/properties/org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty/typeQName"/>
                                 </org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty>
                               </properties>
                             </metaDataModelPropertiesManager>
@@ -9502,7 +9506,7 @@
                             <metaDataModelPropertiesManager>
                               <properties>
                                 <org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty>
-                                  <typeQName reference="../../../../../../../../../../../../../../../../entry[48]/org.mule.common.metadata.DefaultXmlMetaDataModel/fields/org.mule.common.metadata.DefaultMetaDataField/model/fields/org.mule.common.metadata.DefaultMetaDataField[2]/model/metaDataModelPropertiesManager/properties/org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty/typeQName"/>
+                                  <typeQName reference="../../../../../../../../../../org.mule.common.metadata.DefaultMetaDataField[2]/model/metaDataModelPropertiesManager/properties/org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty/typeQName"/>
                                 </org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty>
                               </properties>
                             </metaDataModelPropertiesManager>
@@ -9527,7 +9531,7 @@
                             <metaDataModelPropertiesManager>
                               <properties>
                                 <org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty>
-                                  <typeQName reference="../../../../../../../../../../../../../../../../entry[48]/org.mule.common.metadata.DefaultXmlMetaDataModel/fields/org.mule.common.metadata.DefaultMetaDataField/model/fields/org.mule.common.metadata.DefaultMetaDataField[2]/model/metaDataModelPropertiesManager/properties/org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty/typeQName"/>
+                                  <typeQName reference="../../../../../../../../../../org.mule.common.metadata.DefaultMetaDataField[2]/model/metaDataModelPropertiesManager/properties/org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty/typeQName"/>
                                 </org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty>
                               </properties>
                             </metaDataModelPropertiesManager>

@@ -11,5 +11,6 @@
 	<classpathentry kind="src" path="src/main/wsdl"/>
 	<classpathentry kind="src" path="src/test/munit"/>
 	<classpathentry kind="con" path="MULE_LIB/PayPal Connector/org.mule.tooling.ui.contribution.paypal.3.7.0"/>
+	<classpathentry kind="con" path="MULE_LIB/Stripe/org.mule.tooling.ui.contribution.stripe.3.6.0"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
